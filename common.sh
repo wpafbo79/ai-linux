@@ -5,7 +5,7 @@ declare centraloutputsdir=${centraldir}outputs/;
 declare elevate="";
 declare rootdir=~/devel/github/;
 
-if ! [ $(id -u) == 0 ]; then
+if ! [ $(id --user) == 0 ]; then
   echo "Script may require root priviledge.";
   elevate="sudo";
 fi
@@ -19,14 +19,14 @@ function _linkdir() {
   usagelink=${usagepath%/};
 
   if [ ! -L "${usagelink}" ]; then
-    mkdir -pv "${commonsubdir}";
-    mkdir -pv "${usagepath}";
+    mkdir --parents --verbose "${commonsubdir}";
+    mkdir --parents --verbose "${usagepath}";
 
-    rsync -aHuv --ignore-existing "${usagepath}/" "${commonsubdir}";
+    rsync --archive --hard-links --ignore-existing --update --verbose "${usagepath}/" "${commonsubdir}";
 
-    mv -v "${usagelink}"{,.orig};
+    mv --verbose "${usagelink}"{,.orig};
 
-    ln -fs "${commonsubdir}" "${usagelink}";
+    ln --force --symbolic "${commonsubdir}" "${usagelink}";
   fi
 }
 
@@ -37,14 +37,15 @@ function aptinstall() {
   declare packagecnt=${#};
   declare packagelist="${@}";
 
-  grepstr="($(echo ${packagelist} | tr " " "|"))/";
+  grepstr="^($(echo ${packagelist} | tr " " "|"))/";
 
   installedcnt=$(apt list --installed |
-      grep -E "${grepstr}" |
-      wc -l);
+      grep --extended-regexp "${grepstr}" |
+      wc --lines) || :
 
   if [ ${installedcnt} -ne ${packagecnt} ]; then
-    $elevate apt-get install ${packagelist} -y;
+    "${elevate}" apt-get update;
+    "${elevate}" apt-get install ${packagelist} --yes;
   fi
 }
 
@@ -91,11 +92,11 @@ function mvlinkfile() {
   touch "${file}";
 
   if [ ! -L "${file}" ]; then
-    mkdir -pv "${dir}";
+    mkdir --parents --verbose "${dir}";
 
-    cp -anv "${file}" "${dir}";
-    mv -v "${file}"{,.orig}
+    cp --archive --no-clobber --verbose "${file}" "${dir}";
+    mv --verbose "${file}"{,.orig}
 
-    ln -fs "${dir}/${file}" .;
+    ln --force --symbolic "${dir}/${file}" .;
   fi
 }
