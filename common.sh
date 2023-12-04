@@ -1,5 +1,6 @@
 declare centraldir=~/ai/;
 declare centralconfigsdir=${centraldir}configs/;
+declare centrallogsdir=${centraldir}logs/;
 declare centralmodelsdir=${centraldir}models/;
 declare centraloutputsdir=${centraldir}outputs/;
 declare elevate="";
@@ -65,6 +66,15 @@ function linkconfigsdir() {
   declare usagepath=${2};
 
   _linkdir "${centralconfigsdir}/${commonsubdir}" "${usagepath}";
+}
+
+function linklogsdir() {
+  declare usagelink;
+
+  declare commonsubdir=${1};
+  declare usagepath=${2};
+
+  _linkdir "${centrallogsdir}/${commonsubdir}" "${usagepath}";
 }
 
 function linkmodelsdir() {

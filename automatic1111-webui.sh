@@ -40,7 +40,10 @@ python3.10 -m pip install --upgrade pip;
 #python3.10 -m pip install --upgrade httpcore;
 python3.10 -m pip install httpx==0.24.1;
 
-tag=$(git tag | grep --extended-regexp --invert-match "(pre|RC)" | sort --reverse | head --lines=1);
+tag=$(git tag |
+  grep --extended-regexp --invert-match "(pre|RC)" |
+  sort --reverse --version-sort |
+  head --lines=1);
 
 git checkout "${tag}";
 
