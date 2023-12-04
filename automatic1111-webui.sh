@@ -21,7 +21,7 @@ aptinstall \
   python3-pip \
   python3.10-venv;
 
-mkdir -pv "${rootdir}${parentdir}";
+mkdir --parents --verbose "${rootdir}${parentdir}";
 cd "${rootdir}${parentdir}";
 
 if [ ! -d "${projectsubdir}" ]; then
@@ -40,7 +40,7 @@ python3.10 -m pip install --upgrade pip;
 #python3.10 -m pip install --upgrade httpcore;
 python3.10 -m pip install httpx==0.24.1;
 
-tag=$(git tag | grep -Ev "(pre|RC)" | sort -r | head -n 1);
+tag=$(git tag | grep --extended-regexp --invert-match "(pre|RC)" | sort --reverse | head --lines=1);
 
 git checkout "${tag}";
 
@@ -71,7 +71,10 @@ linkoutputsdir "${parentdir}${projectsubdir}" outputs/;
 #mvlinkfile ui-config.json config/;
 
 git restore webui-user.sh;
-sed -e 's/#python_cmd="python3"/python_cmd="python3.10"/' webui-user.sh -i;
-sed -e 's/#export COMMANDLINE_ARGS=""/#export COMMANDLINE_ARGS="--api --xformers"/' webui-user.sh -i;
+sed \
+  --expression='s/#python_cmd="python3"/python_cmd="python3.10"/' \
+  --expression='s/#export COMMANDLINE_ARGS=""/#export COMMANDLINE_ARGS="--api --xformers"/' \
+  webui-user.sh \
+  --in-place;
 
 ./webui.sh;

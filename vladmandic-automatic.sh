@@ -19,7 +19,7 @@ aptinstall \
   python3-pip \
   python3.10-venv;
 
-mkdir -pv "${rootdir}${parentdir}";
+mkdir --parents --verbose "${rootdir}${parentdir}";
 cd "${rootdir}${parentdir}";
 
 if [ ! -d "${projectsubdir}" ]; then
