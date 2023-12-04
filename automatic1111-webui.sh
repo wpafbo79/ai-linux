@@ -53,25 +53,36 @@ linkconfigsdir "${parentdir}${projectsubdir}" config/;
 
 linkmodelsdir "embeddings" embeddings/;
 
+linkmodelsdir "blip" models/BLIP/;
+linkmodelsdir "clip-interrogator" models/clip-interrogator/;
 linkmodelsdir "codeformer" models/Codeformer/;
+linkmodelsdir "controlnet" models/ControlNet/;
 linkmodelsdir "deepbooru" models/deepbooru/;
 linkmodelsdir "esrgan" models/ESRGAN/;
 linkmodelsdir "gfpgan" models/GFPGAN/;
+linkmodelsdir "hed" models/hed/;
 linkmodelsdir "hypernetworks" models/hypernetworks/;
 linkmodelsdir "karlo" models/karlo/;
 linkmodelsdir "ldsr" models/LDSR/;
 linkmodelsdir "lora" models/Lora/;
+linkmodelsdir "lycoris" models/LyCORIS/;
+linkmodelsdir "mlsd" models/mlsd/;
+linkmodelsdir "normal_bae" models/normal_bae/;
+linkmodelsdir "openpose" models/openpose/;
+linkmodelsdir "pidinet" models/pidinet/;
+linkmodelsdir "realesrgan" models/RealESRGAN/;
 linkmodelsdir "stable-diffusion" models/Stable-diffusion/;
 linkmodelsdir "swinir" models/SwinIR/;
+linkmodelsdir "torch_deepdanbooru" models/torch_deepdanbooru/;
 linkmodelsdir "vae" models/VAE/;
 linkmodelsdir "vae-approx" models/VAE-approx/;
 
 linkoutputsdir "${parentdir}${projectsubdir}" outputs/;
 
-#mvlinkfile config.json config/;
-#mvlinkfile params.txt config/;
-#mvlinkfile styles.csv config/;
-#mvlinkfile ui-config.json config/;
+mvlinkfile config.json config/;
+mvlinkfile params.txt config/;
+mvlinkfile styles.csv config/;
+mvlinkfile ui-config.json config/;
 
 git restore webui-user.sh;
 sed \
