@@ -15,7 +15,7 @@ declare os="wsl-ubuntu";
 
 wget --verbose https://developer.download.nvidia.com/compute/cuda/repos/${os}/${arch}/${keyring};
 
-"${elevate}" dpkg --install "${keyring}";
+dpkginstall "${keyring}";
 
 rm --verbose "${keyring}";
 
