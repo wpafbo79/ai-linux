@@ -50,6 +50,43 @@ function aptinstall() {
   fi
 }
 
+function downloadpkg() {
+  declare grepstr;
+
+  declare url="$1";
+
+  declare package=${url##*/};
+  declare packagename=$(echo $package | cut --delimiter "_" --fields 1);
+
+  grepstr="^($(echo ${packagename} | tr " " "|"))/";
+
+  installedcnt=$(apt list --installed |
+      grep --extended-regexp "${grepstr}" |
+      wc --lines) || :
+
+  if [ ${installedcnt} -lt 1 ]; then
+    wget --verbose ${url};
+  fi
+}
+
+function dpkginstall() {
+  declare grepstr;
+
+  declare package="$1";
+
+  declare packagename=$(echo $package | cut --delimiter "_" --fields 1);
+
+  grepstr="^($(echo ${packagename} | tr " " "|"))/";
+
+  installedcnt=$(apt list --installed |
+      grep --extended-regexp "${grepstr}" |
+      wc --lines) || :
+
+  if [ ${installedcnt} -lt 1 ]; then
+    "${elevate}" dpkg --install ${package};
+  fi
+}
+
 function linkcentraldir() {
   declare usagelink;
 
