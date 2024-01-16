@@ -68,6 +68,7 @@ linkmodelsdir "lora" models/Lora/;
 linkmodelsdir "lycoris" models/LyCORIS/;
 linkmodelsdir "mlsd" models/mlsd/;
 linkmodelsdir "normal_bae" models/normal_bae/;
+linkmodelsdir "opencv" models/opencv/;
 linkmodelsdir "openpose" models/openpose/;
 linkmodelsdir "pidinet" models/pidinet/;
 linkmodelsdir "realesrgan" models/RealESRGAN/;
