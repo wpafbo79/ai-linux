@@ -3,6 +3,7 @@ declare centralconfigsdir=${centraldir}configs/;
 declare centrallogsdir=${centraldir}logs/;
 declare centralmodelsdir=${centraldir}models/;
 declare centraloutputsdir=${centraldir}outputs/;
+declare centraltrainingdir=${centraldir}training-data/;
 declare elevate="";
 declare rootdir=~/devel/github/;
 
