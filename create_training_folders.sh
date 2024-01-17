@@ -33,7 +33,7 @@ if [ ! -f "${configfile}" ]; then
   cat << EOF > "${configfile}"
 {
   "output_name": "${base}_v0.1",
-  "sample_prompts": "{$base} --w 512 -h 512 --s 30",
+  "sample_prompts": "${base} --w 512 -h 512 --s 30",
   "sample_sampler": "euler_a",
   "xformers": "xformers"
 }
