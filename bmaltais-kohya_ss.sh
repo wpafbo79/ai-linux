@@ -42,7 +42,7 @@ source venv/bin/activate;
 
 python3.10 -m pip install --upgrade pip;
 
-export LD_LIBRARY_PATH=/usr/lib/wsl/lib/;
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-}:/usr/lib/wsl/lib/:/usr/local/cuda/lib64/;
 
 tag=$(git tag |
   grep --extended-regexp --invert-match "(pre|RC)" |
