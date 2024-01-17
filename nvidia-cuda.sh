@@ -20,4 +20,4 @@ dpkginstall "${keyring}";
 rm --force --verbose "${keyring}";
 
 aptinstall \
-  cuda-toolkit-12-3;
+  cuda-toolkit-11-8;
