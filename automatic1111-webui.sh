@@ -51,6 +51,8 @@ linkcentraldir "textual_inversion_templates" textual_inversion_templates/;
 
 linkconfigsdir "${parentdir}${projectsubdir}" config/;
 
+linklogsdir "log" log/;
+
 linkmodelsdir "embeddings" embeddings/;
 
 linkmodelsdir "blip" models/BLIP/;
@@ -79,6 +81,7 @@ linkmodelsdir "vae" models/VAE/;
 linkmodelsdir "vae-approx" models/VAE-approx/;
 
 linkoutputsdir "${parentdir}${projectsubdir}" outputs/;
+linkoutputsdir "${parentdir}${projectsubdir}/log/images" log/images/;
 
 mvlinkfile config.json config/;
 mvlinkfile params.txt config/;
