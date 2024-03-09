@@ -63,9 +63,9 @@ if [ "${optupdate}" == "true" ]; then
   git checkout "${tag}";
 fi
 
-python3.10 -m pip install --upgrade pip;
-#python3.10 -m pip install --upgrade httpcore;
-python3.10 -m pip install httpx==0.24.1;
+python -m pip install --upgrade pip;
+#python -m pip install --upgrade httpcore;
+python -m pip install httpx==0.24.1;
 
 linkcentraldir "textual_inversion_templates" textual_inversion_templates/;
 
@@ -107,7 +107,7 @@ mvlinkfile ui-config.json config/;
 
 git restore webui-user.sh;
 sed \
-  --expression='s/#python_cmd="python3"/python_cmd="python3.10"/' \
+  --expression='s/#python_cmd="python3"/python_cmd="python"/' \
   --expression='s/#export COMMANDLINE_ARGS=""/#export COMMANDLINE_ARGS="--api --xformers"/' \
   webui-user.sh \
   --in-place;

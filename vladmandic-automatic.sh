@@ -52,9 +52,9 @@ fi
 
 source venv/bin/activate;
 
-python3.10 -m pip install --upgrade pip;
-#python3.10 -m pip install --upgrade httpcore;
-#python3.10 -m pip install httpx==0.24.1;
+python -m pip install --upgrade pip;
+#python -m pip install --upgrade httpcore;
+#python -m pip install httpx==0.24.1;
 
 linkmodelsdir "chainner" models/chaiNNer/;
 linkmodelsdir "codeformer" models/Codeformer/;

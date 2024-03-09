@@ -69,7 +69,7 @@ if [ "${optupdate}" == "true" ]; then
   git checkout "${tag}";
 fi
 
-python3.10 -m pip install --upgrade pip;
+python -m pip install --upgrade pip;
 
 linkcentraldir "training-data" training-data/;
 
