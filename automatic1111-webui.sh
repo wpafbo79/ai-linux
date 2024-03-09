@@ -14,6 +14,16 @@ declare tag;
 declare parentdir=automatic1111/;
 declare projectsubdir=stable-diffusion-webui/;
 
+declare optupdate="false";
+
+while getopts ":u" arg; do
+  case $arg in
+    u) # Update the codebase
+      optupdate="true";
+      ;;
+  esac
+done
+
 aptinstall \
   libgl1 \
   libglib2.0-0 \
@@ -25,10 +35,18 @@ mkdir --parents --verbose "${rootdir}${parentdir}";
 cd "${rootdir}${parentdir}";
 
 if [ ! -d "${projectsubdir}" ]; then
+  optupdate="true";
+
   git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git "${projectsubdir}";
 fi
 
 cd "${projectsubdir}";
+
+if [ "${optupdate}" == "true" ]; then
+  git fetch --all;
+  git checkout master;
+  git pull;
+fi
 
 if [ ! -d venv ]; then
   python3.10 -m venv venv/;
@@ -36,16 +54,18 @@ fi
 
 source venv/bin/activate;
 
-python3.10 -m pip install --upgrade pip;
-#python3.10 -m pip install --upgrade httpcore;
-python3.10 -m pip install httpx==0.24.1;
-
 tag=$(git tag |
   grep --extended-regexp --invert-match "(pre|RC)" |
   sort --reverse --version-sort |
   head --lines=1);
 
-git checkout "${tag}";
+if [ "${optupdate}" == "true" ]; then
+  git checkout "${tag}";
+fi
+
+python3.10 -m pip install --upgrade pip;
+#python3.10 -m pip install --upgrade httpcore;
+python3.10 -m pip install httpx==0.24.1;
 
 linkcentraldir "textual_inversion_templates" textual_inversion_templates/;
 

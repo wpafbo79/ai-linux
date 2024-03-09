@@ -14,6 +14,16 @@ declare tag;
 declare parentdir=bmaltais/;
 declare projectsubdir=kohya_ss/;
 
+declare optupdate="false";
+
+while getopts ":u" arg; do
+  case $arg in
+    u) # Update the codebase
+      optupdate="true";
+      ;;
+  esac
+done
+
 aptinstall \
   libgl1 \
   libglib2.0-0 \
@@ -25,14 +35,24 @@ aptinstall \
 cd "${progpath}";
 ./nvidia-cuda.sh;
 
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-}:/usr/lib/wsl/lib/:/usr/local/cuda/lib64/;
+
 mkdir --parents --verbose "${rootdir}${parentdir}";
 cd "${rootdir}${parentdir}";
 
 if [ ! -d "${projectsubdir}" ]; then
+  optupdate="true";
+
   git clone https://github.com/bmaltais/kohya_ss.git "${projectsubdir}";
 fi
 
 cd "${projectsubdir}";
+
+if [ "${optupdate}" == "true" ]; then
+  git fetch --all;
+  git checkout master;
+  git pull;
+fi
 
 if [ ! -d venv ]; then
   python3.10 -m venv venv/;
@@ -40,16 +60,16 @@ fi
 
 source venv/bin/activate;
 
-python3.10 -m pip install --upgrade pip;
-
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-}:/usr/lib/wsl/lib/:/usr/local/cuda/lib64/;
-
 tag=$(git tag |
   grep --extended-regexp --invert-match "(pre|RC)" |
   sort --reverse --version-sort |
   head --lines=1);
 
-git checkout "${tag}";
+if [ "${optupdate}" == "true" ]; then
+  git checkout "${tag}";
+fi
+
+python3.10 -m pip install --upgrade pip;
 
 linkcentraldir "training-data" training-data/;
 
