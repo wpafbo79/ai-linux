@@ -70,6 +70,7 @@ if [ "${optupdate}" == "true" ]; then
 fi
 
 python -m pip install --upgrade pip;
+python -m pip install scipy;
 
 linkcentraldir "training-data" training-data/;
 
