@@ -12,6 +12,16 @@ source common.sh;
 declare parentdir=vladmandic/;
 declare projectsubdir=automatic/;
 
+declare optupdate="false";
+
+while getopts ":u" arg; do
+  case $arg in
+    u) # Update the codebase
+      optupdate="true";
+      ;;
+  esac
+done
+
 aptinstall \
   libgl1 \
   libglib2.0-0 \
@@ -23,10 +33,18 @@ mkdir --parents --verbose "${rootdir}${parentdir}";
 cd "${rootdir}${parentdir}";
 
 if [ ! -d "${projectsubdir}" ]; then
+  optupdate="true";
+
   git clone https://github.com/vladmandic/automatic.git "${projectsubdir}";
 fi
 
 cd "${projectsubdir}";
+
+if [ "${optupdate}" == "true" ]; then
+  git fetch --all;
+  git checkout master;
+  git pull;
+fi
 
 if [ ! -d venv ]; then
   python3.10 -m venv venv/;

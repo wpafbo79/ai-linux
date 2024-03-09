@@ -14,6 +14,16 @@ declare tag;
 declare parentdir=comfyanonymous/;
 declare projectsubdir=comfyui/;
 
+declare optupdate="false";
+
+while getopts ":u" arg; do
+  case $arg in
+    u) # Update the codebase
+      optupdate="true";
+      ;;
+  esac
+done
+
 aptinstall \
   libgl1 \
   libglib2.0-0 \
@@ -25,10 +35,18 @@ mkdir --parents --verbose "${rootdir}${parentdir}";
 cd "${rootdir}${parentdir}";
 
 if [ ! -d "${projectsubdir}" ]; then
+  optupdate="true";
+
   git clone https://github.com/comfyanonymous/ComfyUI.git "${projectsubdir}";
 fi
 
 cd "${projectsubdir}";
+
+if [ "${optupdate}" == "true" ]; then
+  git fetch --all;
+  git checkout master;
+  git pull;
+fi
 
 if [ ! -d venv ]; then
   python3.10 -m venv venv/;
@@ -42,7 +60,9 @@ tag=$(git tag |
   head --lines=1 ||
   echo "HEAD");
 
-git checkout "${tag}";
+if [ "${optupdate}" == "true" ]; then
+  git checkout "${tag}";
+fi
 
 python -m pip install --upgrade pip;
 python -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
